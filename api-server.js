@@ -9,17 +9,42 @@ const jwksRsa = require("jwks-rsa");
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.API_PORT;
+const appOrigin = process.env.APP_ORIGIN;
+const audience = process.env.AUTH0_AUDIENCE;
+const issuer = process.env.AUTH0_ISSUER;
 
-// Body parser
-app.use(express.urlencoded({ extended: false }));
+if (!issuer || !audience) {
+  throw new Error("Please make sure that .env is in place and populated");
+}
 
-app.get('/', function(req, res){
-    res.send("Welcome to the machine");
+app.use(morgan("dev"));
+app.use(helmet());
+app.use(cors({ origin: appOrigin }));
+
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `${issuer}.well-known/jwks.json`,
+  }),
+
+  audience: audience,
+  issuer: issuer,
+  algorithms: ["RS256"],
 });
 
-// Listen on port 5000
-app.listen(port, () => {
-  console.log(`Server is booming on port ${port}
-Visit http://localhost:${port}`);
+app.get("/api/public-message", (req, res) => {
+  res.send({
+    msg: "The API doesn't require an access token to share this message.",
+  });
 });
+
+app.get("/api/private-message", checkJwt, (req, res) => {
+  res.send({
+    msg: "The API successfully validated your access token.",
+  });
+});
+
+app.listen(process.env.PORT || 3000, () => console.log(`API Server listening on port 3000`));
