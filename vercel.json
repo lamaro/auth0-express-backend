@@ -19,13 +19,6 @@
         },
         "dest": "api-server.js",
         "continue": true
-    },
-    {
-        "src": "api-server",
-        "dest": "/api-server.js",
-        "methods": [
-            "GET"
-        ]
     }
   ]
 }
