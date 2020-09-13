@@ -2,9 +2,9 @@
   "name": "auth0-express-sample",
   "version": "1.0.0",
   "description": "Express API sample",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
