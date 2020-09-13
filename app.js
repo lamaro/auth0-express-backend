@@ -47,4 +47,4 @@ app.get("/api/private-message", checkJwt, (req, res) => {
   });
 });
 
-app.listen(process.env.PORT || port, () => console.log(`API Server listening on port ${port}`));
+app.listen(process.env.PORT || 3000, () => console.log(`API Server listening on port ${port}`));
