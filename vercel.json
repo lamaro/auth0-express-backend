@@ -3,6 +3,6 @@
   "builds": [{ "src": "app.js", "use": "@vercel/node" }],
 
   "routes": [
-    { "src": "/api/public-message", "dest": "app.js" }
+    { "src": "/", "dest": "api-server.js" }
   ]
 }
