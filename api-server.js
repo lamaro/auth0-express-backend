@@ -35,6 +35,10 @@ const checkJwt = jwt({
   algorithms: ["RS256"],
 });
 
+app.get('/', function(req, res){
+    res.send("Welcome to the machine");
+});
+
 app.get("/api/public-message", (req, res) => {
   res.send({
     msg: "The API doesn't require an access token to share this message.",
